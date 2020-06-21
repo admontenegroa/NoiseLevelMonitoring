@@ -4,12 +4,7 @@
       <div class="sidebar-wrapper">
         
         <div class="logo">
-          <a target="_blank" href="https://appseed.us/admin-dashboards/django-dashboard-black" class="simple-text logo-mini">
-            BD
-          </a>
-          <a target="_blank" href="https://appseed.us/admin-dashboards/django-dashboard-black" class="simple-text logo-normal">
-            Django Dashboard
-          </a>
+          Ingeniería de Software I
         </div>
 
         {% if user.is_authenticated %}
@@ -20,6 +15,7 @@
               <p>Dashboard</p>
             </a>
           </li>
+          <!--
           <li>
             <a href="/ui-icons.html">
               <i class="tim-icons icon-atom"></i>
@@ -63,19 +59,21 @@
               <p>RTL Support</p>
             </a>
           </li>
+        -->
           <li>
             <a href="{% url 'logout' %}" >
               <i class="tim-icons icon-user-run"></i>
               <p>Logout</p>
             </a>
           </li>
-
+<!--
           <li class="active-pro">
             <a target="_blank" href="https://appseed.us/admin-dashboards/django-dashboard-black">
               <i class="tim-icons icon-spaceship"></i>
               <p>See product</p>
             </a>
           </li>
+        -->          
         </ul>
         {% endif %}
         
