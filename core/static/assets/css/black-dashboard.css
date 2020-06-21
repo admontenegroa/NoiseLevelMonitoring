@@ -5569,20 +5569,20 @@ a.badge:focus {
 }
 
 .badge-primary {
-  color: #212529;
-  background-color: #f4f5f7;
+  color: #ffffff;
+  background-color: #e14eca;
 }
 
 a.badge-primary:hover,
 a.badge-primary:focus {
-  color: #212529;
-  background-color: #d6dae2;
+  color: #ffffff;
+  background-color: #d725bb;
 }
 
 a.badge-primary:focus,
 a.badge-primary.focus {
   outline: 0;
-  box-shadow: 0 0 0 0 rgba(244, 245, 247, 0.5);
+  box-shadow: 0 0 0 0 rgba(225, 78, 202, 0.5);
 }
 
 .badge-secondary {
@@ -7217,14 +7217,14 @@ a.close.disabled {
 }
 
 .bg-primary {
-  background-color: #e14eca !important;
+  background-color: #1d8cf8 !important;
 }
 
 a.bg-primary:hover,
 a.bg-primary:focus,
 button.bg-primary:hover,
 button.bg-primary:focus {
-  background-color: #d725bb !important;
+  background-color: #d6dae2 !important;
 }
 
 .bg-secondary {
