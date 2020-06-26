@@ -59,7 +59,7 @@
       <div class="card-body">
         <div class="chart-area">
           <canvas id="chartLinePurple" width="150" height="300"></canvas>
-          <p>ALTO</p>
+          <p id="alerta"></p>
         </div>
       </div>
     </div>
@@ -425,16 +425,27 @@ navigator.getUserMedia({
     javascriptNode.onaudioprocess = function() {
         var array = new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteFrequencyData(array);
+        
         var values = 0;
 
         var length = array.length;
         for (var i = 0; i < length; i++) {
           values += (array[i]);
         }
-
+        
         var average = values / length;
+        //console.log(average = 20 * Math.log10(average))
+        //average = 10 * Math.log10(average)
+        if (average <=10){
+          document.getElementById("alerta").innerText = "BAJO"
+        } 
+        else if(average > 10 && average <= 60){
+          document.getElementById("alerta").innerText = "MEDIO"
+        } else{
+          document.getElementById("alerta").innerText = "ALTO"
+        }
 
-        console.log(Math.round(average-40));
+        //console.log(Math.round(average-40));
 
         canvasContext.clearRect(0, 0, 150, 300);
         canvasContext.fillStyle = '#BadA55';
