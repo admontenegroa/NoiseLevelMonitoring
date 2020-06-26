@@ -6,6 +6,25 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
+
+<style>
+
+  
+  #canvas {
+    width: 150px;
+    height: 300px;
+    position: absolute;
+    top: 150px;
+    left: 45%;
+    text-align: center;
+  }
+
+  .chart-area {
+    height: 307px !important;
+    width: 100% !important;
+}
+  
+  </style>
 <!--
 <div class="row">
 
@@ -39,7 +58,8 @@
       </div>
       <div class="card-body">
         <div class="chart-area">
-          <canvas id="chartLinePurple"></canvas>
+          <canvas id="chartLinePurple" width="150" height="300"></canvas>
+          <p>ALTO</p>
         </div>
       </div>
     </div>
@@ -379,326 +399,58 @@
   });
 </script>
 
-<script type="text/javascript">
-  /*
-   *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
-   *
-   *  Use of this source code is governed by a BSD-style license
-   *  that can be found in the LICENSE file in the root of the source
-   *  tree.
-   */
+<script>
+  navigator.getUserMedia = navigator.getUserMedia ||
+navigator.webkitGetUserMedia ||
+navigator.mozGetUserMedia;
+if (navigator.getUserMedia) {
+navigator.getUserMedia({
+    audio: true
+  },
+  function(stream) {
+    audioContext = new AudioContext();
+    analyser = audioContext.createAnalyser();
+    microphone = audioContext.createMediaStreamSource(stream);
+    javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
 
-  'use strict';
+    analyser.smoothingTimeConstant = 0.8;
+    analyser.fftSize = 1024;
 
-  var visualSetting = "sinewave";
+    microphone.connect(analyser);
+    analyser.connect(javascriptNode);
+    javascriptNode.connect(audioContext.destination);
 
+    canvasContext = document.getElementById("chartLinePurple").getContext("2d");
 
-  var canvas_time = document.querySelector('#chartLinePurple');
-  var canvas_ctx_time = canvas_time.getContext("2d");
-  var intendedWidth_time = document.querySelector('.chart-area').clientWidth;
+    javascriptNode.onaudioprocess = function() {
+        var array = new Uint8Array(analyser.frequencyBinCount);
+        analyser.getByteFrequencyData(array);
+        var values = 0;
 
-  //var canvas_frequency = document.querySelector('.visualizer_frequency');
-  //var canvas_ctx_frequency = canvas_frequency.getContext("2d");
-  //var intendedWidth_frequency = document.querySelector('.wrapper_frequency').clientWidth;
-
-  canvas_time.setAttribute('width', intendedWidth_time);
-  //canvas_frequency.setAttribute('width', intendedWidth_frequency);
-  var drawVisual;
-
-  //initialize();
-  var webaudio_tooling_obj = function () {
-
-    var audioContext
-
-    console.log("audio is starting up ...");
-
-    var BUFF_SIZE_RENDERER = 16384;
-
-    var audioInput = null,
-      microphone_stream = null,
-      gain_node = null,
-      script_processor_node = null,
-      script_processor_analysis_node = null,
-      analyser_node = null;
-
-    if (!navigator.getUserMedia)
-      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia || navigator.msGetUserMedia;
-
-    if (navigator.getUserMedia) {
-
-      navigator.getUserMedia({
-          audio: true
-        },
-        function (stream) {
-          start_microphone(stream);
-        },
-        function (e) {
-          alert('Error capturing audio.');
-        }
-      );
-
-    } else {
-      alert('getUserMedia not supported in this browser.');
-    }
-
-    // ---
-
-    function show_some_data(given_typed_array, num_row_to_display, label) {
-
-      var size_buffer = given_typed_array.length;
-      var index = 0;
-
-      console.log("__________ " + label);
-
-      if (label === "time") {
-
-        for (; index < num_row_to_display && index < size_buffer; index += 1) {
-          //console.log(given_typed_array[index])
-          var curr_value_time = (given_typed_array[index] / 128) - 1.0;
-          //console.log(curr_value_time);
-          advance(curr_value_time);
+        var length = array.length;
+        for (var i = 0; i < length; i++) {
+          values += (array[i]);
         }
 
-      } else if (label === "frequency") {
-
-        for (; index < num_row_to_display && index < size_buffer; index += 1) {
-
-          console.log(given_typed_array[index]);
-        }
-
-      } else {
-
-        throw new Error("ERROR - must pass time or frequency");
-      }
-    }
-
-    function process_microphone_buffer(event) {
-
-      var i, N, inp, microphone_output_buffer;
-
-      microphone_output_buffer = event.inputBuffer.getChannelData(0); // just mono - 1 channel for now
-    }
-
-    function getAverageVolume(array) {
-      var values = 0;
-      var average;
-
-      var length = array.length;
-
-      // get all the frequency amplitudes
-      for (var i = 0; i < length; i++) {
-        values += array[i];
-      }
-
-      average = values / length;
-      return average;
-    }
-
-
-    function visualize() {
-      var WIDTH_time = canvas_time.width;
-      //var WIDTH_frequency = canvas_time.width;
-      var HEIGHT_time = canvas_time.height;
-      //var HEIGHT_frequency = canvas_frequency.height;
-
-      //console.log(visualSetting);
-
-      if (visualSetting === "sinewave") {
-        analyser_node.fftSize = 2048;
-        var buffer_length = analyser_node.fftSize;
-        //console.log(buffer_length);
-        var array_time_domain = new Uint8Array(buffer_length);
-
-
-
-        canvas_ctx_time.clearRect(0, 0, WIDTH_time, HEIGHT_time);
-
-        var draw_time_audio = function () {
-
-          drawVisual = requestAnimationFrame(draw_time_audio);
-
-          analyser_node.getByteTimeDomainData(array_time_domain);
-
-
-          canvas_ctx_time.fillStyle = 'rgb(200, 200, 200)';
-          canvas_ctx_time.fillRect(0, 0, WIDTH_time, HEIGHT_time);
-
-          canvas_ctx_time.lineWidth = 2;
-          canvas_ctx_time.strokeStyle = 'rgb(0, 0, 0)';
-
-          canvas_ctx_time.beginPath();
-
-          var sliceWidth = WIDTH_time * 1.0 / buffer_length;
-          var x = 0;
-
-          for (var i = 0; i < buffer_length; i++) {
-
-            var v = array_time_domain[i] / 256.0;
-            //var dB = 
-            //console.log(dB[0]);
-            //document.getElementsByClassName("decibelios").innerHTML = (Math.floor(Math.log2(array_time_domain[i]))*6.02)/48.16;
-            document.getElementsByClassName("decibelios").innerHTML = v
-            var y = v * HEIGHT_time;
-
-            if (i === 0) {
-              canvas_ctx_time.moveTo(x, y);
-            } else {
-              canvas_ctx_time.lineTo(x, y);
-            }
-
-            x += sliceWidth;
-          }
-
-          canvas_ctx_time.lineTo(canvas_time.width, canvas_time.height);
-          canvas_ctx_time.stroke();
-        };
-
-        draw_time_audio();
-
-      }
-      /*else if (visualSetting == "frequencybars") {
-               analyser_node.fftSize = 256;
-               var buffer_length = analyser_node.frequencyBinCount;
-               console.log(buffer_length);
-               var array_freq_domain = new Uint8Array(buffer_length);
-
-               canvas_ctx_frequency.clearRect(0, 0, WIDTH_frequency, HEIGHT_frequency);
-
-               var draw_frequency_audio = function () {
-                 drawVisual = requestAnimationFrame(draw_frequency_audio);
-
-                 analyser_node.getByteFrequencyData(array_freq_domain);
-
-                 canvas_ctx_frequency.fillStyle = 'rgb(0, 0, 0)';
-                 canvas_ctx_frequency.fillRect(0, 0, WIDTH_frequency, HEIGHT_frequency);
-
-                 var barWidth = (WIDTH_frequency / buffer_length) * 2.5;
-                 var barHeight;
-                 var x = 0;
-
-                 for (var i = 0; i < buffer_length; i++) {
-                   barHeight = array_freq_domain[i];
-
-                   canvas_ctx_frequency.fillStyle = 'rgb(' + (barHeight + 100) + ',50,50)';
-                   canvas_ctx_frequency.fillRect(x, HEIGHT_frequency - barHeight / 2, barWidth, barHeight / 2);
-
-                   x += barWidth + 1;
-                 }
-               };
-
-               draw_frequency_audio();
-
-             }*/
-      /*
-             //else if (visualSetting == "off") {
-               canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
-               canvasCtx.fillStyle = "red";
-               canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
-             }*/
-
-    }
-
-
-    function start_microphone(stream) {
-      audioContext = new AudioContext();
-      gain_node = audioContext.createGain();
-      gain_node.connect(audioContext.destination);
-
-      microphone_stream = audioContext.createMediaStreamSource(stream);
-      microphone_stream.connect(gain_node);
-
-      script_processor_node = audioContext.createScriptProcessor(BUFF_SIZE_RENDERER, 1, 1);
-      script_processor_node.onaudioprocess = process_microphone_buffer;
-
-      microphone_stream.connect(script_processor_node);
-
-      // --- enable volume control for output speakers
-      /*
-              document.getElementById('volume').addEventListener('change', function () {
-
-                var curr_volume = this.value;
-                gain_node.gain.value = curr_volume;
-
-                console.log("curr_volume ", curr_volume);
-              });*/
-
-      // --- setup FFT
-
-      script_processor_analysis_node = audioContext.createScriptProcessor(2048, 1, 1);
-      script_processor_analysis_node.connect(gain_node);
-
-      analyser_node = audioContext.createAnalyser();
-      analyser_node.smoothingTimeConstant = 0;
-      //analyser_node.fftSize = 2048;
-
-      microphone_stream.connect(analyser_node);
-
-      analyser_node.connect(script_processor_analysis_node);
-
-      //var buffer_length = analyser_node.frequencyBinCount;
-
-      //var array_freq_domain = new Uint8Array(buffer_length);
-      //var array_time_domain = new Uint8Array(buffer_length);
-
-      //console.log("buffer_length " + buffer_length);
-
-
-      visualize();
-
-      script_processor_analysis_node.onaudioprocess = function () {
-
-        // get the average for the first channel
-        //analyser_node.getByteFrequencyData(array_freq_domain);
-        //analyser_node.getByteTimeDomainData(array_time_domain);
-
-        // draw the spectrogram
-
-        // get the average, bincount is fftsize / 2
-
-        var array_db = new Uint8Array(analyser_node.frequencyBinCount);
-        analyser_node.getByteFrequencyData(array_db);
-        var average = getAverageVolume(array_db)
-
-        console.log('VOLUME:' + average); //here's the volume
-
-        if (average < 10) {
-          document.getElementsByClassName("decibelios").innerHTML = "BAJO";
-          console.log("SILENCIO");
-        } else if (average >= 10 && average < 50) {
-          document.getElementsByClassName("decibelios").innerHTML = "TENUE";
-          console.log("TENUE");
-        } else if (average >= 50 && average < 70) {
-          document.getElementsByClassName("decibelios").innerHTML = "MODERADO";
-          console.log("MODERADO");
-        } else if (average >= 70 && average < 80) {
-          document.getElementsByClassName("decibelios").innerHTML = "ALTO";
-          console.log("ALTO");
-
-        } else if (average >= 80 && average < 110) {
-          document.getElementsByClassName("decibelios").innerHTML = "MUY ALTO";
-          console.log("MUY ALTO");
-
-        } else if (average <= 110 && average < 140) {
-          document.getElementsByClassName("decibelios").innerHTML = "EXTREMADAMENTE ALTO";
-          console.log("EXTREMADAMENTE ALTO");
-        } else {
-          document.getElementsByClassName("decibelios").innerHTML = "UMBRAL DEL DOLOR"
-          console.log("UMBRAL DEL DOLOR")
-        }
-
-
-        if (microphone_stream.playbackState == microphone_stream.PLAYING_STATE) {
-
-          //show_some_data(array_freq_domain, 5, "frequency");
-
-          //show_some_data(array_time_domain, 50,
-          //  "time"); // store this to record to aggregate buffer/file
-        }
-      };
-    }
-
-  }(); //  webaudio_tooling_obj = function()
+        var average = values / length;
+
+        console.log(Math.round(average-40));
+
+        canvasContext.clearRect(0, 0, 150, 300);
+        canvasContext.fillStyle = '#BadA55';
+        canvasContext.fillRect(0, 300 - average, 150, 300);
+        canvasContext.fillStyle = '#262626';
+        canvasContext.font = "48px impact";
+        //canvasContext.fillText(Math.round(average - 40), -2, 300);
+
+      } // end fn stream
+  },
+  function(err) {
+    console.log("The following error occured: " + err.name)
+  });
+} else {
+console.log("getUserMedia not supported");
+}
 </script>
 
 {% endblock javascripts %}
