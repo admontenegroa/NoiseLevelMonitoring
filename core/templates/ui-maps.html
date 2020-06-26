@@ -1,35 +1,704 @@
-{% extends 'layouts/base.html' %}
+{% extends "layouts/base.html" %}
 
-{% block title %} Maps {% endblock %} 
+{% block title %} Dashboard {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-
+<!--
 <div class="row">
-  <div class="col-md-12">
-    <div class="card card-plain">
-      <div class="card-header">
-        Google Maps
+
+  <div class="col-12">
+    <div class="card card-chart">
+      <div class="card-header ">
+        <div class="row">
+          <div class="col-sm-6 text-left">
+            <h5 class="card-category">Total Shipments</h5>
+            <h2 class="card-title">Nivel de Ruido</h2>
+          </div>
+        </div>
       </div>
       <div class="card-body">
-        <div id="map" class="map"></div>
+        <div class="chart-area">
+          <canvas id="chartBig1"></canvas>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
+</div>
+-->
+
+<div class="row">
+  <div class="col-12">
+    <div class="card card-chart">
+      <div class="card-header">
+        <h5 class="card-category">Señal de Audio</h5>
+        <h3 class="card-title"><i class="tim-icons icon-bell-55 text-primary"></i> Dominio del Tiempo</h3>
+      </div>
+      <div class="card-body">
+        <div class="chart-area">
+          <canvas id="chartLinePurple"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--
+  <div class="col-lg-4">
+    <div class="card card-chart">
+      <div class="card-header">
+        <h5 class="card-category">Señal de Audio</h5>
+        <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i>Dominio de la Frecuencia</h3>
+      </div>
+      <div class="card-body">
+        <div class="chart-area">
+          <canvas id="CountryChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card card-chart">
+      <div class="card-header">
+        <h5 class="card-category">Nivel de Ruido</h5>
+        <h3 class="card-title"><i class="tim-icons icon-send text-success"></i> Indicador</h3>
+      </div>
+      <div class="card-body">
+        <div class="chart-area">
+          <canvas id="chartLineGreen"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>-->
+</div>
+<!-- <div class="row">
+      <div class="col-lg-6 col-md-12">
+        <div class="card card-tasks">
+          <div class="card-header ">
+            <h6 class="title d-inline">Tasks(5)</h6>
+            <p class="card-category d-inline">today</p>
+            <div class="dropdown">
+              <button type="button" class="btn btn-link dropdown-toggle btn-icon" data-toggle="dropdown">
+                <i class="tim-icons icon-settings-gear-63"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#pablo">Action</a>
+                <a class="dropdown-item" href="#pablo">Another action</a>
+                <a class="dropdown-item" href="#pablo">Something else</a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body ">
+            <div class="table-full-width table-responsive">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" value="">
+                          <span class="form-check-sign">
+                            <span class="check"></span>
+                          </span>
+                        </label>
+                      </div>
+                    </td>
+                    <td>
+                      <p class="title">Update the Documentation</p>
+                      <p class="text-muted">Dwuamish Head, Seattle, WA 8:47 AM</p>
+                    </td>
+                    <td class="td-actions text-right">
+                      <button type="button" rel="tooltip" title="" class="btn btn-link" data-original-title="Edit Task">
+                        <i class="tim-icons icon-pencil"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" value="" checked="">
+                          <span class="form-check-sign">
+                            <span class="check"></span>
+                          </span>
+                        </label>
+                      </div>
+                    </td>
+                    <td>
+                      <p class="title">GDPR Compliance</p>
+                      <p class="text-muted">The GDPR is a regulation that requires businesses to protect the personal data and privacy of Europe citizens for transactions that occur within EU member states.</p>
+                    </td>
+                    <td class="td-actions text-right">
+                      <button type="button" rel="tooltip" title="" class="btn btn-link" data-original-title="Edit Task">
+                        <i class="tim-icons icon-pencil"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" value="">
+                          <span class="form-check-sign">
+                            <span class="check"></span>
+                          </span>
+                        </label>
+                      </div>
+                    </td>
+                    <td>
+                      <p class="title">Solve the issues</p>
+                      <p class="text-muted">Fifty percent of all respondents said they would be more likely to shop at a company </p>
+                    </td>
+                    <td class="td-actions text-right">
+                      <button type="button" rel="tooltip" title="" class="btn btn-link" data-original-title="Edit Task">
+                        <i class="tim-icons icon-pencil"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" value="">
+                          <span class="form-check-sign">
+                            <span class="check"></span>
+                          </span>
+                        </label>
+                      </div>
+                    </td>
+                    <td>
+                      <p class="title">Release v2.0.0</p>
+                      <p class="text-muted">Ra Ave SW, Seattle, WA 98116, SUA 11:19 AM</p>
+                    </td>
+                    <td class="td-actions text-right">
+                      <button type="button" rel="tooltip" title="" class="btn btn-link" data-original-title="Edit Task">
+                        <i class="tim-icons icon-pencil"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" value="">
+                          <span class="form-check-sign">
+                            <span class="check"></span>
+                          </span>
+                        </label>
+                      </div>
+                    </td>
+                    <td>
+                      <p class="title">Export the processed files</p>
+                      <p class="text-muted">The report also shows that consumers will not easily forgive a company once a breach exposing their personal data occurs. </p>
+                    </td>
+                    <td class="td-actions text-right">
+                      <button type="button" rel="tooltip" title="" class="btn btn-link" data-original-title="Edit Task">
+                        <i class="tim-icons icon-pencil"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" value="">
+                          <span class="form-check-sign">
+                            <span class="check"></span>
+                          </span>
+                        </label>
+                      </div>
+                    </td>
+                    <td>
+                      <p class="title">Arival at export process</p>
+                      <p class="text-muted">Capitol Hill, Seattle, WA 12:34 AM</p>
+                    </td>
+                    <td class="td-actions text-right">
+                      <button type="button" rel="tooltip" title="" class="btn btn-link" data-original-title="Edit Task">
+                        <i class="tim-icons icon-pencil"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12">
+        <div class="card ">
+          <div class="card-header">
+            <h4 class="card-title"> Simple Table</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table tablesorter " id="">
+                <thead class=" text-primary">
+                  <tr>
+                    <th>
+                      Name
+                    </th>
+                    <th>
+                      Country
+                    </th>
+                    <th>
+                      City
+                    </th>
+                    <th class="text-center">
+                      Salary
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      Dakota Rice
+                    </td>
+                    <td>
+                      Niger
+                    </td>
+                    <td>
+                      Oud-Turnhout
+                    </td>
+                    <td class="text-center">
+                      $36,738
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Minerva Hooper
+                    </td>
+                    <td>
+                      Curaçao
+                    </td>
+                    <td>
+                      Sinaai-Waas
+                    </td>
+                    <td class="text-center">
+                      $23,789
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Sage Rodriguez
+                    </td>
+                    <td>
+                      Netherlands
+                    </td>
+                    <td>
+                      Baileux
+                    </td>
+                    <td class="text-center">
+                      $56,142
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Philip Chaney
+                    </td>
+                    <td>
+                      Korea, South
+                    </td>
+                    <td>
+                      Overland Park
+                    </td>
+                    <td class="text-center">
+                      $38,735
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Doris Greene
+                    </td>
+                    <td>
+                      Malawi
+                    </td>
+                    <td>
+                      Feldkirchen in Kärnten
+                    </td>
+                    <td class="text-center">
+                      $63,542
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Mason Porter
+                    </td>
+                    <td>
+                      Chile
+                    </td>
+                    <td>
+                      Gloucester
+                    </td>
+                    <td class="text-center">
+                      $78,615
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Jon Porter
+                    </td>
+                    <td>
+                      Portugal
+                    </td>
+                    <td>
+                      Gloucester
+                    </td>
+                    <td class="text-center">
+                      $98,615
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  -->
+<div class="row">
+  <div>
+    <p class="decibelios"></p>
+  </div>
+  <audio id="audioRecorder" controls autoplay style="display: none"></audio>
+
+  <div>
+    <span id="errorMsg"></span>
+  </div>
+</div>
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Javascript method's body can be found in assets/js/demos.js
-    demo.initGoogleMaps();
+    demo.initDashboardPageCharts();
+
   });
 </script>
-  
+
+<script type="text/javascript">
+  /*
+   *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
+   *
+   *  Use of this source code is governed by a BSD-style license
+   *  that can be found in the LICENSE file in the root of the source
+   *  tree.
+   */
+
+  'use strict';
+
+  var visualSetting = "sinewave";
+
+
+  var canvas_time = document.querySelector('#chartLinePurple');
+  var canvas_ctx_time = canvas_time.getContext("2d");
+  var intendedWidth_time = document.querySelector('.chart-area').clientWidth;
+
+  //var canvas_frequency = document.querySelector('.visualizer_frequency');
+  //var canvas_ctx_frequency = canvas_frequency.getContext("2d");
+  //var intendedWidth_frequency = document.querySelector('.wrapper_frequency').clientWidth;
+
+  canvas_time.setAttribute('width', intendedWidth_time);
+  //canvas_frequency.setAttribute('width', intendedWidth_frequency);
+  var drawVisual;
+
+  //initialize();
+  var webaudio_tooling_obj = function () {
+
+    var audioContext
+
+    console.log("audio is starting up ...");
+
+    var BUFF_SIZE_RENDERER = 16384;
+
+    var audioInput = null,
+      microphone_stream = null,
+      gain_node = null,
+      script_processor_node = null,
+      script_processor_analysis_node = null,
+      analyser_node = null;
+
+    if (!navigator.getUserMedia)
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
+      navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+    if (navigator.getUserMedia) {
+
+      navigator.getUserMedia({
+          audio: true
+        },
+        function (stream) {
+          start_microphone(stream);
+        },
+        function (e) {
+          alert('Error capturing audio.');
+        }
+      );
+
+    } else {
+      alert('getUserMedia not supported in this browser.');
+    }
+
+    // ---
+
+    function show_some_data(given_typed_array, num_row_to_display, label) {
+
+      var size_buffer = given_typed_array.length;
+      var index = 0;
+
+      console.log("__________ " + label);
+
+      if (label === "time") {
+
+        for (; index < num_row_to_display && index < size_buffer; index += 1) {
+          //console.log(given_typed_array[index])
+          var curr_value_time = (given_typed_array[index] / 128) - 1.0;
+          //console.log(curr_value_time);
+          advance(curr_value_time);
+        }
+
+      } else if (label === "frequency") {
+
+        for (; index < num_row_to_display && index < size_buffer; index += 1) {
+
+          console.log(given_typed_array[index]);
+        }
+
+      } else {
+
+        throw new Error("ERROR - must pass time or frequency");
+      }
+    }
+
+    function process_microphone_buffer(event) {
+
+      var i, N, inp, microphone_output_buffer;
+
+      microphone_output_buffer = event.inputBuffer.getChannelData(0); // just mono - 1 channel for now
+    }
+
+    function getAverageVolume(array) {
+      var values = 0;
+      var average;
+
+      var length = array.length;
+
+      // get all the frequency amplitudes
+      for (var i = 0; i < length; i++) {
+        values += array[i];
+      }
+
+      average = values / length;
+      return average;
+    }
+
+
+    function visualize() {
+      var WIDTH_time = canvas_time.width;
+      //var WIDTH_frequency = canvas_time.width;
+      var HEIGHT_time = canvas_time.height;
+      //var HEIGHT_frequency = canvas_frequency.height;
+
+      //console.log(visualSetting);
+
+      if (visualSetting === "sinewave") {
+        analyser_node.fftSize = 2048;
+        var buffer_length = analyser_node.fftSize;
+        //console.log(buffer_length);
+        var array_time_domain = new Uint8Array(buffer_length);
+
+
+
+        canvas_ctx_time.clearRect(0, 0, WIDTH_time, HEIGHT_time);
+
+        var draw_time_audio = function () {
+
+          drawVisual = requestAnimationFrame(draw_time_audio);
+
+          analyser_node.getByteTimeDomainData(array_time_domain);
+
+
+          canvas_ctx_time.fillStyle = 'rgb(200, 200, 200)';
+          canvas_ctx_time.fillRect(0, 0, WIDTH_time, HEIGHT_time);
+
+          canvas_ctx_time.lineWidth = 2;
+          canvas_ctx_time.strokeStyle = 'rgb(0, 0, 0)';
+
+          canvas_ctx_time.beginPath();
+
+          var sliceWidth = WIDTH_time * 1.0 / buffer_length;
+          var x = 0;
+
+          for (var i = 0; i < buffer_length; i++) {
+
+            var v = array_time_domain[i] / 256.0;
+            //var dB = 
+            //console.log(dB[0]);
+            //document.getElementsByClassName("decibelios").innerHTML = (Math.floor(Math.log2(array_time_domain[i]))*6.02)/48.16;
+            document.getElementsByClassName("decibelios").innerHTML = v
+            var y = v * HEIGHT_time;
+
+            if (i === 0) {
+              canvas_ctx_time.moveTo(x, y);
+            } else {
+              canvas_ctx_time.lineTo(x, y);
+            }
+
+            x += sliceWidth;
+          }
+
+          canvas_ctx_time.lineTo(canvas_time.width, canvas_time.height);
+          canvas_ctx_time.stroke();
+        };
+
+        draw_time_audio();
+
+      }
+      /*else if (visualSetting == "frequencybars") {
+               analyser_node.fftSize = 256;
+               var buffer_length = analyser_node.frequencyBinCount;
+               console.log(buffer_length);
+               var array_freq_domain = new Uint8Array(buffer_length);
+
+               canvas_ctx_frequency.clearRect(0, 0, WIDTH_frequency, HEIGHT_frequency);
+
+               var draw_frequency_audio = function () {
+                 drawVisual = requestAnimationFrame(draw_frequency_audio);
+
+                 analyser_node.getByteFrequencyData(array_freq_domain);
+
+                 canvas_ctx_frequency.fillStyle = 'rgb(0, 0, 0)';
+                 canvas_ctx_frequency.fillRect(0, 0, WIDTH_frequency, HEIGHT_frequency);
+
+                 var barWidth = (WIDTH_frequency / buffer_length) * 2.5;
+                 var barHeight;
+                 var x = 0;
+
+                 for (var i = 0; i < buffer_length; i++) {
+                   barHeight = array_freq_domain[i];
+
+                   canvas_ctx_frequency.fillStyle = 'rgb(' + (barHeight + 100) + ',50,50)';
+                   canvas_ctx_frequency.fillRect(x, HEIGHT_frequency - barHeight / 2, barWidth, barHeight / 2);
+
+                   x += barWidth + 1;
+                 }
+               };
+
+               draw_frequency_audio();
+
+             }*/
+      /*
+             //else if (visualSetting == "off") {
+               canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+               canvasCtx.fillStyle = "red";
+               canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+             }*/
+
+    }
+
+
+    function start_microphone(stream) {
+      audioContext = new AudioContext();
+      gain_node = audioContext.createGain();
+      gain_node.connect(audioContext.destination);
+
+      microphone_stream = audioContext.createMediaStreamSource(stream);
+      microphone_stream.connect(gain_node);
+
+      script_processor_node = audioContext.createScriptProcessor(BUFF_SIZE_RENDERER, 1, 1);
+      script_processor_node.onaudioprocess = process_microphone_buffer;
+
+      microphone_stream.connect(script_processor_node);
+
+      // --- enable volume control for output speakers
+      /*
+              document.getElementById('volume').addEventListener('change', function () {
+
+                var curr_volume = this.value;
+                gain_node.gain.value = curr_volume;
+
+                console.log("curr_volume ", curr_volume);
+              });*/
+
+      // --- setup FFT
+
+      script_processor_analysis_node = audioContext.createScriptProcessor(2048, 1, 1);
+      script_processor_analysis_node.connect(gain_node);
+
+      analyser_node = audioContext.createAnalyser();
+      analyser_node.smoothingTimeConstant = 0;
+      //analyser_node.fftSize = 2048;
+
+      microphone_stream.connect(analyser_node);
+
+      analyser_node.connect(script_processor_analysis_node);
+
+      //var buffer_length = analyser_node.frequencyBinCount;
+
+      //var array_freq_domain = new Uint8Array(buffer_length);
+      //var array_time_domain = new Uint8Array(buffer_length);
+
+      //console.log("buffer_length " + buffer_length);
+
+
+      visualize();
+
+      script_processor_analysis_node.onaudioprocess = function () {
+
+        // get the average for the first channel
+        //analyser_node.getByteFrequencyData(array_freq_domain);
+        //analyser_node.getByteTimeDomainData(array_time_domain);
+
+        // draw the spectrogram
+
+        // get the average, bincount is fftsize / 2
+
+        var array_db = new Uint8Array(analyser_node.frequencyBinCount);
+        analyser_node.getByteFrequencyData(array_db);
+        var average = getAverageVolume(array_db)
+
+        console.log('VOLUME:' + average); //here's the volume
+
+        if (average < 10) {
+          document.getElementsByClassName("decibelios").innerHTML = "BAJO";
+          console.log("SILENCIO");
+        } else if (average >= 10 && average < 50) {
+          document.getElementsByClassName("decibelios").innerHTML = "TENUE";
+          console.log("TENUE");
+        } else if (average >= 50 && average < 70) {
+          document.getElementsByClassName("decibelios").innerHTML = "MODERADO";
+          console.log("MODERADO");
+        } else if (average >= 70 && average < 80) {
+          document.getElementsByClassName("decibelios").innerHTML = "ALTO";
+          console.log("ALTO");
+
+        } else if (average >= 80 && average < 110) {
+          document.getElementsByClassName("decibelios").innerHTML = "MUY ALTO";
+          console.log("MUY ALTO");
+
+        } else if (average <= 110 && average < 140) {
+          document.getElementsByClassName("decibelios").innerHTML = "EXTREMADAMENTE ALTO";
+          console.log("EXTREMADAMENTE ALTO");
+        } else {
+          document.getElementsByClassName("decibelios").innerHTML = "UMBRAL DEL DOLOR"
+          console.log("UMBRAL DEL DOLOR")
+        }
+
+
+        if (microphone_stream.playbackState == microphone_stream.PLAYING_STATE) {
+
+          //show_some_data(array_freq_domain, 5, "frequency");
+
+          //show_some_data(array_time_domain, 50,
+          //  "time"); // store this to record to aggregate buffer/file
+        }
+      };
+    }
+
+  }(); //  webaudio_tooling_obj = function()
+</script>
+
 {% endblock javascripts %}

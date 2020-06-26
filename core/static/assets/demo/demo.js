@@ -1,4 +1,4 @@
-type = ['primary', 'info', 'success', 'warning', 'danger'];
+/*type = ['primary', 'info', 'success', 'warning', 'danger'];
 
 demo = {
   initPickColor: function() {
@@ -739,4 +739,4 @@ demo = {
     });
   }
 
-};
+};*/
