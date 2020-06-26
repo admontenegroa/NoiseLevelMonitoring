@@ -20,7 +20,7 @@ SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_1122')
 DEBUG = config('DEBUG', default=False)
 
 # load production server from .env
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1'),'ec2-52-72-31-120.compute-1.amazonaws.com','52.72.31.120']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1'),'ec2-54-208-79-171.compute-1.amazonaws.com','54.208.79.171']
 
 # Application definition
 
