@@ -24,6 +24,17 @@
     width: 100% !important;
 }
   
+  #chartLinePurple{
+    position: relative;
+    bottom: 200px;
+    left: 550px;
+  }
+
+  #alerta{
+    position: relative;
+    bottom: 60px;
+    left: 330px;
+  }
   </style>
 <!--
 <div class="row">
@@ -53,8 +64,8 @@
   <div class="col-12">
     <div class="card card-chart">
       <div class="card-header">
-        <h5 class="card-category">Señal de Audio</h5>
-        <h3 class="card-title"><i class="tim-icons icon-bell-55 text-primary"></i> Dominio del Tiempo</h3>
+        <h5 class="card-category">Alerta</h5>
+        <h3 class="card-title"><i class="tim-icons icon-bell-55 text-primary"></i>Nivel de Ruido</h3>
       </div>
       <div class="card-body">
         <div class="chart-area">
@@ -436,12 +447,19 @@ navigator.getUserMedia({
         var average = values / length;
         //console.log(average = 20 * Math.log10(average))
         //average = 10 * Math.log10(average)
+        //tenue, bajo, moderado, dificultad de converssación, fuerte, alto
         if (average <=10){
-          document.getElementById("alerta").innerText = "BAJO"
+          document.getElementById("alerta").innerText = "TENUE"
         } 
-        else if(average > 10 && average <= 60){
-          document.getElementById("alerta").innerText = "MEDIO"
-        } else{
+        else if(average > 10 && average <= 30){
+          document.getElementById("alerta").innerText = "BAJO"
+        }else if(average > 30 && average <= 60){
+          document.getElementById("alerta").innerText = "MODERADO"
+        }else if(average > 60 && average <= 80){
+          document.getElementById("alerta").innerText = "DIFICULTAD CONVERSACIÓN"
+        }else if(average > 80 && average <= 90){
+          document.getElementById("alerta").innerText = "FUERTE"
+        }else {
           document.getElementById("alerta").innerText = "ALTO"
         }
 
