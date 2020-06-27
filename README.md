@@ -1,5 +1,7 @@
 # [Django Dashboard Black](https://appseed.us/admin-dashboards/django-dashboard-black)
 
+[Github Issues Page](https://github.com/admontenegroa/NoiseLevelMonitoring/tree/master/core/static/assets/img/SistemaCiberfisico.png)
+
 > **Open-Source Admin Dashboard** coded in **Flask Framework** by **AppSeed** [Web App Generator](https://appseed.us/app-generator) - features:
 
 - UI Kit: **[Black Dashboard](https://www.creative-tim.com/product/black-dashboard?ref=appseed)** (Free version) provided by **Creative-Tim**
